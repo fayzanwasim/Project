@@ -1,0 +1,120 @@
+obj = imread('a7.jpg');
+red = obj(:,:,1);
+green = obj(:,:,2);
+blue = obj(:,:,3);
+figure(1);
+subplot(2,2,1); imshow(red); title('RED pane (1)');
+subplot(2,2,2); imshow(green); title('GREEN pane (2)');
+subplot(2,2,3); imshow(blue); title('BLUE pane (3)');
+
+choice = input('Enter the number of the picture in which your object stands out: ');
+if(choice == 1)
+    use=red;
+end
+
+if(choice == 2)
+    use=green;
+end
+
+if(choice == 3)
+    use=blue;
+end
+
+bw1=im2bw(use,0.1);
+bw2=im2bw(use,0.2);
+bw3=im2bw(use,0.3);
+bw4=im2bw(use,0.4);
+bw5=im2bw(use,0.5);
+bw6=im2bw(use,0.6);
+bw7=im2bw(use,0.7);
+bw8=im2bw(use,0.8);
+bw9=im2bw(use,0.9);
+bw10=im2bw(use,1);
+
+figure(1);
+subplot(3,4,1,'align'); imshow(bw1); title('0.1 (1)');
+subplot(3,4,2,'align'); imshow(bw2); title('0.2 (2)');
+subplot(3,4,3,'align'); imshow(bw3); title('0.3 (3)');
+subplot(3,4,4,'align'); imshow(bw4); title('0.4 (4)');
+subplot(3,4,5,'align'); imshow(bw5); title('0.5 (5)');
+subplot(3,4,6,'align'); imshow(bw6); title('0.6 (6)');
+subplot(3,4,7,'align'); imshow(bw7); title('0.7 (7)');
+subplot(3,4,8,'align'); imshow(bw8); title('0.8 (8)');
+subplot(3,4,9,'align'); imshow(bw9); title('0.9 (9)');
+subplot(3,4,10,'align'); imshow(bw10); title('1.0 (10)');
+
+choice = input('Enter the number of picture with less noise: ');
+
+if(choice == 1)
+    one = bw1;
+end
+
+if(choice == 2)
+    one = bw2;
+end
+
+if(choice == 3)
+    one = bw3;
+end
+
+if(choice == 4)
+    one = bw4;
+end
+
+if(choice == 5)
+    one = bw5;
+end
+if(choice == 6)
+    one = bw6;
+end
+
+if(choice == 7)
+    one = bw7;
+end
+
+if(choice == 8)
+    one = bw8;
+end
+
+if(choice == 9)
+    one = bw9;
+end
+
+if(choice == 10)
+    one = bw10;
+end
+figure(1); subplot(1,1,1); imshow(one);
+
+choice = input('Is the object black or white (0 for black and 1 for white) :  ');
+
+if(choice == 0)
+one = imcomplement(one);  
+end
+
+
+two = imfill(one,'holes');  
+
+figure(1); subplot(1,1,1); imshow(two);
+
+three= imclearborder(two); 
+
+figure(1); subplot(1,1,1); imshow(three);
+
+se = strel('disk',25);
+four = imopen(three,se);
+
+figure(1); subplot(1,1,1); imshow(four);
+
+figure(3)
+figure(1); subplot(1,1,1); imshow(obj);
+diameter = regionprops(four, 'MinorAxisLength');
+factor = input('How far in ft is the object?  : ');
+diameterRealMinor = diameter.MinorAxisLength/200;
+diameterRealMinor = diameterRealMinor*(factor)
+
+diameter = regionprops(four, 'MajorAxisLength');
+diameterRealMajor = diameter.MajorAxisLength/200;
+diameterRealMajor = diameterRealMajor*(factor)
+
+figure(2);
+imshow(obj);
